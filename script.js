@@ -1,11 +1,16 @@
 const RANDOM_QUOTE_API_URL = 'https://api.quotable.io/random';
 const textDisplayElement = document.getElementById('textDisplay');
 const textInputElement = document.getElementById('textInput');
+const typingSpeedElement = document.getElementById('typingSpeed');
 const timerElement = document.getElementById('timer');
+
+let time = 0;
 
 textInputElement.addEventListener('input', () => {
     const arrayText = textDisplayElement.querySelectorAll('span');
     const arrayValue = textInputElement.value.split('');
+    
+    let nCorrect = 0;
     let correct=true
 
     arrayText.forEach((letterSpan, index) => {
@@ -18,13 +23,20 @@ textInputElement.addEventListener('input', () => {
         else if(char===letterSpan.innerText){
             letterSpan.classList.add('correct');
             letterSpan.classList.remove('incorrect');
+            nCorrect+=1;
         }else{
             letterSpan.classList.add('incorrect');
             letterSpan.classList.remove('correct');
             correct=false;
         }
     });
+    if (timerElement.innerText!="0"){
+        typingSpeedElement.innerText = `${Math.floor((nCorrect/5)/(timerElement.innerText/60))} WPM`;
+    }
+    
+    
     if(correct){
+        typingSpeedElement.innerText = "0 WPM";
         renderQuote();
     }
 });
