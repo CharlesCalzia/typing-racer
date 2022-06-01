@@ -6,6 +6,13 @@ const timerElement = document.getElementById('timer');
 
 let time = 0;
 
+function checkLocalStorage(){
+    if(localStorage.getItem('nPhrases') === null){
+        return false;
+    }
+    return true;
+}
+
 textInputElement.addEventListener('input', () => {
     const arrayText = textDisplayElement.querySelectorAll('span');
     const arrayValue = textInputElement.value.split('');
@@ -30,13 +37,22 @@ textInputElement.addEventListener('input', () => {
             correct=false;
         }
     });
+
     if (timerElement.innerText!="0"){
         typingSpeedElement.innerText = `${Math.floor((nCorrect/5)/(timerElement.innerText/60))} WPM`;
     }
     
     
     if(correct){
+        if (checkLocalStorage()){
+            localStorage.setItem('nPhrases', parseInt(localStorage.getItem('nPhrases'))+1);
+        }
+        else{
+            localStorage.setItem('nPhrases', 1);
+
+        }
         typingSpeedElement.innerText = "0 WPM";
+        
         renderQuote();
     }
 });
@@ -57,6 +73,12 @@ async function renderQuote(){
         textDisplayElement.appendChild(span);
     })
     textInputElement.value = null;
+    if (checkLocalStorage()){
+        nPhrases.innerText = localStorage.getItem('nPhrases') + " phrases";
+    }
+    else{ 
+        nPhrases.innerText = 0; 
+    }
     startTimer();
 }
 

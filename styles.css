@@ -23,6 +23,15 @@ body, .text-input{
     max-width: 90%;
 }
 
+.extra-info{
+    display: flex;
+    position: absolute;
+    top: 7rem;
+    font-size: 1.5rem;
+    color: rgb(153, 233, 87);
+    font-weight: bold;
+}
+
 .info-container{
     display: flex;
     position: absolute;
